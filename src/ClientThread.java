@@ -24,7 +24,7 @@ public class ClientThread extends Thread {
         try  {
             BufferedReader reader = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
             BufferedWriter output = new BufferedWriter(new OutputStreamWriter(this.client.getOutputStream()));
-            
+
             // read request
             String message = reader.readLine();
             System.out.println("Request : " + message);
@@ -74,24 +74,19 @@ public class ClientThread extends Thread {
 
                 } else {
                     try {
+
                         fis = new FileInputStream(directoryPath);
                         fileContent = new String(fis.readAllBytes());
                         
                         statusCode = "200 OK"; 
-
-                        System.out.println("File found");
-                        System.out.println("File Name: " + fileName);
-                        System.out.println("Content-Type: " + contentType);
-                        System.out.println("Content-Length: " + fileContent.length());
+                        
                         output.write("HTTP/1.1 " + statusCode + crlf);
-                        output.write("Accept-Ranges: bytes" +  crlf);
-                        output.write("Content-Type: " + contentType +  crlf);
                         output.write("Content-Length: " + fileContent.length() + crlf);
+                        output.write("Content-Type: " + contentType +  crlf);
                         output.write("Content-Disposition: attachment; filename=" + "\"" + fileName + "\"" + crlf + crlf);
                         
                         output.write(fileContent);
                         output.flush();
-
                     } catch (FileNotFoundException e) {
                         fileContent = "File not found";
                         statusCode = "404 Not Found";

@@ -40,6 +40,7 @@ public class MultiThread {
             
             // create server socket
             ServerSocket server = new ServerSocket(port, 0, addr);
+            server.setReuseAddress(true);
             // ServerSocket server = new ServerSocket(port);
             while(true) {
                 
